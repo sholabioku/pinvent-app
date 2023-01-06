@@ -4,12 +4,15 @@ const dotenv = require('dotenv').config();
 const cors = require('cors');
 const colors = require('colors');
 const bodyParser = require('body-parser');
+const userRoute = require('./routes/userRoute');
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+app.use('/api/v1/users', userRoute);
 
 app.get('/', (req, res) => {
   res.send('Home page');
