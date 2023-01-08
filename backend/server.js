@@ -4,12 +4,15 @@ const dotenv = require('dotenv').config();
 const cors = require('cors');
 const colors = require('colors');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+
 const userRoute = require('./routes/userRoute');
 const errorHandler = require('./middleware/errorMiddleware');
 
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
