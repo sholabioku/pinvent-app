@@ -5,7 +5,9 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/userModel');
 
 const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: '7d',
+  });
 };
 
 const registerUser = asyncHandler(async (req, res) => {
@@ -109,7 +111,15 @@ const getUser = asyncHandler(async (req, res) => {
 });
 
 const loginStatus = asyncHandler(async (req, res) => {
-  res.send('login status');
+  const token = req.cookies.token;
+
+  if (!token) return res.json(false);
+
+  const verified = jwt.verify(token, process.env.JWT_SECRET);
+  if (verified) {
+    return res.json(true);
+  }
+  return res.json(false);
 });
 
 module.exports = {
