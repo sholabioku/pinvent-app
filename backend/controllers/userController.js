@@ -5,6 +5,7 @@ const crypto = require('crypto');
 
 const User = require('../models/userModel');
 const Token = require('../models/tokenModel');
+const sendEmail = require('../utils/sendEmail');
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -182,6 +183,11 @@ const forgotPassword = asyncHandler(async (req, res) => {
     throw new Error('User does not exist');
   }
 
+  let token = await Token.findOne({ userId: user._id });
+  if (token) {
+    await token.deleteOne();
+  }
+
   let resetToken = crypto.randomBytes(32).toString('hex') + user._id;
   const hashedToken = crypto
     .createHash('sha256')
@@ -208,7 +214,17 @@ const forgotPassword = asyncHandler(async (req, res) => {
     <p>Pinvent Team</p>
   `;
 
-  res.send('Token has been sent');
+  const subject = 'Password Reset Request';
+  const send_to = user.email;
+  const sent_from = process.env.EMAIL_USER;
+
+  try {
+    await sendEmail(subject, message, send_to, sent_from);
+    res.status(200).json({ success: true, message: 'Reset email sent' });
+  } catch (error) {
+    res.status(500);
+    throw new Error('Email not sent, please try again later');
+  }
 });
 
 module.exports = {
