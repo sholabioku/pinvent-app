@@ -15,7 +15,7 @@ const sendEmail = async (subject, message, send_to, sent_from, reply_to) => {
 
   const options = {
     from: sent_from,
-    to: sent_to,
+    to: send_to,
     replyTo: reply_to,
     subject: subject,
     html: message,
@@ -24,8 +24,9 @@ const sendEmail = async (subject, message, send_to, sent_from, reply_to) => {
   transporter.sendMail(options, function (err, info) {
     if (err) {
       console.log(err);
+    } else {
+      console.log(info);
     }
-    console.log(info);
   });
 };
 
