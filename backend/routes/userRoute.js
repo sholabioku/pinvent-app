@@ -22,6 +22,6 @@ router.get('/loggedin', loginStatus);
 router.patch('/updateuser', protect, updateUser);
 router.patch('/changepassword', protect, changePassword);
 router.post('/forgotpassword', forgotPassword);
-router.put('/resetpassword/:resettoken', resetPassword);
+router.put('/resetpassword/:resetToken', resetPassword);
 
 module.exports = router;
