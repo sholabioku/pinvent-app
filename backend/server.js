@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
@@ -17,6 +18,7 @@ app.use(cookieParser());
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/api/v1/users', userRoute);
 app.use('/api/v1/products', productRoute);
