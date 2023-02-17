@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser');
 
 const userRoute = require('./routes/userRoute');
 const productRoute = require('./routes/productRoute');
+const contactRoute = require('./routes/contactRoute');
 const errorHandler = require('./middleware/errorMiddleware');
 
 const app = express();
@@ -22,6 +23,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/api/v1/users', userRoute);
 app.use('/api/v1/products', productRoute);
+app.use('/api/v1/contactus', contactRoute);
 
 app.get('/', (req, res) => {
   res.send('Home page');
