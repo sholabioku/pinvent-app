@@ -14,6 +14,8 @@ const errorHandler = require('./middleware/errorMiddleware');
 
 const app = express();
 
+mongoose.set('strictQuery', true);
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
