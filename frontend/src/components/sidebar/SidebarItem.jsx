@@ -17,7 +17,7 @@ const SidebarItem = ({ item, isOpen }) => {
       >
         <div className='sidebar-title'>
           <span>
-            {item.icon && <div className='icons'>{item.icon}</div>}
+            {item.icon && <div className='icon'>{item.icon}</div>}
             {isOpen && <div>{item.title}</div>}
           </span>
           <MdKeyboardArrowRight
@@ -25,28 +25,40 @@ const SidebarItem = ({ item, isOpen }) => {
             className='arrow-icon'
             onClick={() => setExpandMenu(!expandMenu)}
           />
-
-          <div className='sidebar-content'>
-            {item.childrens.map((child, index) => {
-              return (
-                <div className='s-child' key={index}>
-                  <NavLink to={child.path} className={activeSublink}>
-                    <div className='sidebar-item'>
-                      <div className='sidebar-title'>
+        </div>
+        <div className='sidebar-content'>
+          {item.childrens.map((child, index) => {
+            return (
+              <div key={index} className='s-child'>
+                <NavLink to={child.path} className={activeSublink}>
+                  <div className='sidebar-item'>
+                    <div className='sidebar-title'>
+                      <span>
                         {child.icon && <div className='icon'>{child.icon}</div>}
                         {isOpen && <div>{child.title}</div>}
-                      </div>
+                      </span>
                     </div>
-                  </NavLink>
-                </div>
-              );
-            })}
-          </div>
+                  </div>
+                </NavLink>
+              </div>
+            );
+          })}
         </div>
       </div>
     );
   } else {
-    return <div>SidebarItem</div>;
+    return (
+      <NavLink to={item.path} className={activeLink}>
+        <div className='sidebar-item s-parent'>
+          <div className='sidebar-title'>
+            <span>
+              {item.icon && <div className='icon'>{item.icon}</div>}
+              {isOpen && <div>{item.title}</div>}
+            </span>
+          </div>
+        </div>
+      </NavLink>
+    );
   }
 };
 

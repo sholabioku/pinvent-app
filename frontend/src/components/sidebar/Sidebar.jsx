@@ -5,10 +5,16 @@ import menu from '../../data/sidebar';
 
 import './Sidebar.scss';
 import SidebarItem from './SidebarItem';
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = ({ children }) => {
   const [isOpen, setIsOpen] = useState(true);
   const toggle = () => setIsOpen(!isOpen);
+  const navigate = useNavigate();
+
+  const goHome = () => {
+    navigate('/');
+  };
 
   return (
     <div className='layout'>
@@ -18,7 +24,7 @@ const Sidebar = ({ children }) => {
             className='logo'
             style={{ cursor: 'pointer', display: isOpen ? 'block' : 'none' }}
           >
-            <RiProductHuntLine size={35} />
+            <RiProductHuntLine size={35} onClick={goHome} />
           </div>
           <div
             className='bars'
