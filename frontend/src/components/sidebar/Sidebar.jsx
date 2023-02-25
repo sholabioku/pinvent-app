@@ -4,6 +4,7 @@ import { HiMenuAlt3 } from 'react-icons/hi';
 import menu from '../../data/sidebar';
 
 import './Sidebar.scss';
+import SidebarItem from './SidebarItem';
 
 const Sidebar = ({ children }) => {
   const [isOpen, setIsOpen] = useState(true);
@@ -26,8 +27,18 @@ const Sidebar = ({ children }) => {
             <HiMenuAlt3 onClick={toggle} />
           </div>
         </div>
+        {menu.map((item, index) => {
+          return <SidebarItem key={index} item={item} isOpen={isOpen} />;
+        })}
       </div>
-      <main>{children}</main>
+      <main
+        style={{
+          paddingLeft: isOpen ? '230px' : '60px',
+          transition: 'all 0.5s',
+        }}
+      >
+        {children}
+      </main>
     </div>
   );
 };
