@@ -1,11 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MdPassword } from 'react-icons/md';
-import { Link } from 'react-router-dom';
-import Card from '../../components/card/Card';
+import { Link, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
+import Card from '../../components/card/Card';
+import { resetPassword } from '../../services/authService';
 import styles from './auth.module.scss';
 
 const Reset = () => {
+  const initialState = {
+    password: '',
+    password2: '',
+  };
+
+  const [formData, setFormData] = useState(initialState);
+  const { password, password2 } = formData;
+
+  const { resetToken } = useParams();
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const reset = async (e) => {
+    e.preventDefault();
+
+    if (password.length < 6) {
+      return toast.error('Password must be at least 6 characters');
+    }
+
+    if (password !== password2) {
+      return toast.error('Passwords do not match');
+    }
+
+    const userData = { password, password2 };
+
+    try {
+      const data = await resetPassword(userData, resetToken);
+      toast.success(data.message);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <div className={`container ${styles.auth}`}>
       <Card>
@@ -14,18 +52,22 @@ const Reset = () => {
             <MdPassword size={35} color='#999' />
           </div>
           <h2>Reset Password</h2>
-          <form>
+          <form onSubmit={reset}>
             <input
               type='password'
               placeholder='New Password'
               name='password'
               required
+              value={password}
+              onChange={handleInputChange}
             />
             <input
               type='password'
               placeholder='Confirm New Password'
-              name='password'
+              name='password2'
               required
+              value={password2}
+              onChange={handleInputChange}
             />
             <button type='submit' className='--btn --btn-primary --btn-block'>
               Reset Password
