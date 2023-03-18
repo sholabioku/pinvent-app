@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import Loader from '../../components/loader/Loader';
 
 import ProductForm from '../../components/productForm/ProductForm';
 import {
@@ -9,7 +10,7 @@ import {
 } from '../../redux/features/product/productSlice';
 
 const AddProduct = () => {
-  const navigate = useNavigation();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const initialState = {
@@ -64,6 +65,7 @@ const AddProduct = () => {
 
   return (
     <div>
+      {isLoading && <Loader />}
       <h3 className='--mt'>Add New Product</h3>
       <ProductForm
         product={product}
