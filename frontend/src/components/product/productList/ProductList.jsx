@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { AiOutlineEye } from 'react-icons/ai';
 
 import { SpinnerImg } from '../../loader/Loader';
 import './productList.scss';
+import Search from '../../search/Search';
 
 const ProductList = ({ isLoading, products }) => {
+  const [search, setSearch] = useState('');
+
   const shortenText = (text, n) => {
     if (text.length > n) {
       const shortenedText = text.substring(0, n).concat('...');
@@ -23,7 +26,10 @@ const ProductList = ({ isLoading, products }) => {
             <h3>Inventory Items</h3>
           </span>
           <span>
-            <h3>Search products</h3>
+            <Search
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
           </span>
         </div>
 
