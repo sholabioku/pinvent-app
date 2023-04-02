@@ -62,7 +62,7 @@ const ProductSummary = ({ products }) => {
         <InfoBox
           icon={categoryIcon}
           title={'All Categories'}
-          count={category.length}
+          count={category?.length}
           bgColor='card4'
         />
       </div>
