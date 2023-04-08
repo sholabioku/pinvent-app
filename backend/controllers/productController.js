@@ -83,9 +83,11 @@ const deleteProduct = asyncHandler(async (req, res) => {
 });
 
 const updateProduct = asyncHandler(async (req, res) => {
-  const { name, sku, category, quantity, price, description } = req.body;
+  const { name, category, quantity, price, description } = req.body;
+  const { id } = req.params;
 
-  const product = await Product.findById(req.params.id);
+  const product = await Product.findById(id);
+
   if (!product) {
     res.status(404);
     throw new Error('Product not found');
@@ -93,7 +95,7 @@ const updateProduct = asyncHandler(async (req, res) => {
 
   if (product.user.toString() !== req.user.id) {
     res.status(401);
-    throw new Error('User not authorized to update product');
+    throw new Error('User not authorized');
   }
 
   let fileData = {};
@@ -113,12 +115,12 @@ const updateProduct = asyncHandler(async (req, res) => {
       fileName: req.file.originalname,
       filePath: uploadedFile.secure_url,
       fileType: req.file.mimetype,
-      filename: fileSizeFormatter(req.file.size, 2),
+      fileSize: fileSizeFormatter(req.file.size, 2),
     };
   }
 
   const updatedProduct = await Product.findByIdAndUpdate(
-    { _id: req.params.id },
+    { _id: id },
     {
       name,
       category,
@@ -127,7 +129,10 @@ const updateProduct = asyncHandler(async (req, res) => {
       description,
       image: Object.keys(fileData).length === 0 ? product?.image : fileData,
     },
-    { new: true, runValidators: true }
+    {
+      new: true,
+      runValidators: true,
+    }
   );
 
   res.status(200).json(updatedProduct);

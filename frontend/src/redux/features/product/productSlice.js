@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
 import productService from './productService';
+import { toast } from 'react-toastify';
 
 const initialState = {
   product: null,
@@ -11,7 +11,7 @@ const initialState = {
   message: '',
   totalStoreValue: 0,
   outOfStock: 0,
-  categories: [],
+  category: [],
 };
 
 export const createProduct = createAsyncThunk(
@@ -116,7 +116,9 @@ const productSlice = createSlice({
         const productValue = price * quantity;
         return array.push(productValue);
       });
-      const totalValue = array.reduce((a, b) => a + b, 0);
+      const totalValue = array.reduce((a, b) => {
+        return a + b;
+      }, 0);
       state.totalStoreValue = totalValue;
     },
     CALC_OUTOFSTOCK(state, action) {
@@ -127,9 +129,7 @@ const productSlice = createSlice({
 
         return array.push(quantity);
       });
-
       let count = 0;
-
       array.forEach((number) => {
         if (number === 0 || number === '0') {
           count += 1;
@@ -142,6 +142,7 @@ const productSlice = createSlice({
       const array = [];
       products.map((item) => {
         const { category } = item;
+
         return array.push(category);
       });
       const uniqueCategory = [...new Set(array)];
@@ -205,7 +206,7 @@ const productSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.isError = false;
-        state.product = action.product;
+        state.product = action.payload;
       })
       .addCase(getProduct.rejected, (state, action) => {
         state.isLoading = false;

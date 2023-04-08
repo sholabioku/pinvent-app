@@ -12,13 +12,14 @@ import {
 } from '../../redux/features/product/productSlice';
 
 const EditProduct = () => {
+  const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { id } = useParams();
-
   const isLoading = useSelector(selectIsLoading);
 
   const productEdit = useSelector(selectProduct);
+
+  console.log(productEdit);
 
   const [product, setProduct] = useState(productEdit);
   const [productImage, setProductImage] = useState('');
@@ -33,7 +34,7 @@ const EditProduct = () => {
     setProduct(productEdit);
 
     setImagePreview(
-      productEdit && productEdit.image ? `${productEdit.image.filepath}` : null
+      productEdit && productEdit.image ? `${productEdit.image.filePath}` : null
     );
 
     setDescription(
@@ -55,11 +56,11 @@ const EditProduct = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('name', product?.name);
+
     formData.append('category', product?.category);
     formData.append('quantity', product?.quantity);
     formData.append('price', product?.price);
     formData.append('description', description);
-
     if (productImage) {
       formData.append('image', productImage);
     }
