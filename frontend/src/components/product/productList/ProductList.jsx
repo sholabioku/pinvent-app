@@ -17,6 +17,7 @@ import {
   deleteProduct,
   getProducts,
 } from '../../../redux/features/product/productSlice';
+import { Link } from 'react-router-dom';
 
 const ProductList = ({ isLoading, products }) => {
   const [search, setSearch] = useState('');
@@ -131,10 +132,14 @@ const ProductList = ({ isLoading, products }) => {
                       </td>
                       <td className='icons'>
                         <span>
-                          <AiOutlineEye size={25} color={'purple'} />
+                          <Link to={`/product-detail/${_id}`}>
+                            <AiOutlineEye size={25} color={'purple'} />
+                          </Link>
                         </span>
                         <span>
-                          <FaEdit size={20} color={'green'} />
+                          <Link to={`/edit-product/${_id}`}>
+                            <FaEdit size={20} color={'green'} />
+                          </Link>
                         </span>
                         <span>
                           <FaTrashAlt
