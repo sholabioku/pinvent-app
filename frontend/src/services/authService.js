@@ -133,7 +133,7 @@ export const updateUser = async (formData) => {
     toast.error(message);
   }
 };
-// Update Profile
+
 export const changePassword = async (formData) => {
   try {
     const response = await axios.patch(
